@@ -1,0 +1,33 @@
+﻿<Window x:Class="course_work.AddDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:course_work"
+        mc:Ignorable="d"
+        Title="AddDialog" Height="177.8" Width="473" Margin="0">
+    <Grid Background="#FF2F3136">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260*"/>
+            <ColumnDefinition Width="261*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="fn" HorizontalAlignment="Left" Height="23" Margin="85,4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100"/>
+        <TextBox x:Name="fileName" HorizontalAlignment="Left" Height="23" Margin="50,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="135"/>
+        <Button x:Name="FindWay" Content="..." HorizontalAlignment="Left" Margin="185,33,0,0" VerticalAlignment="Top" Width="20" Height="23" Click="FindWay_Click"/>
+        <Label Content="Имя Файла:" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" Width="75" Height="26"/>
+        <Label Content="Путь:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="40" Height="26"/>
+        <Button x:Name="Ok" Content="OK" HorizontalAlignment="Left" Margin="9,107,0,0" VerticalAlignment="Top" Width="36" Click="Ok_Click_1" Height="22"/>
+        <ComboBox x:Name="categorycombo" HorizontalAlignment="Left" Margin="50,107,0,0" VerticalAlignment="Top" Width="135">
+            <ComboBoxItem Content="funny"/>
+            <ComboBoxItem Content="sad"/>
+            <ComboBoxItem Content="angry"/>
+            <ComboBoxItem Content="cringe"/>
+        </ComboBox>
+        <Label Content="URL:" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Width="40"/>
+        <TextBox x:Name="fileURL" HorizontalAlignment="Left" Height="23" Margin="50,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="135"/>
+        <Label Content="Тэги:" Grid.Column="1" HorizontalAlignment="Left" Margin="0.2,0,0,0" VerticalAlignment="Top" Width="48"/>
+        <TextBox x:Name="ftags" HorizontalAlignment="Left" Height="23" Margin="45.2,3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="115" Grid.Column="1"/>
+        <ListBox x:Name="listtags" Grid.Column="1" HorizontalAlignment="Left" Height="98" Margin="0.2,31,0,0" VerticalAlignment="Top" Width="138"/>
+        <Button x:Name="addTags" Content="Добавить" Grid.Column="1" HorizontalAlignment="Left" Margin="160.2,3,0,0" VerticalAlignment="Top" Width="66" Height="23" Click="addTags_Click"/>
+    </Grid>
+</Window>
