@@ -1,23 +1,9 @@
-﻿using Microsoft.Win32;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace course_work
 {
@@ -32,37 +18,24 @@ namespace course_work
             InitializeComponent();
         }
 
-
-        List<imgOBJECT> allPic = new List<imgOBJECT>();
-
-        List<imgOBJECT> selectedPic = new List<imgOBJECT>();
-
-        JSON j = new JSON();
+        private List<imgOBJECT> allPic = new List<imgOBJECT>();
+        private List<imgOBJECT> selectedPic = new List<imgOBJECT>();
+        private JSON j = new JSON();
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            string category;
-
             AddDialog parametr = new AddDialog();
             if (parametr.ShowDialog() == true)
             {
                 List<string> tags = parametr.listtags.Items.Cast<string>().ToList();
-                category = parametr.categorycombo.Text;
-
+                string category = parametr.categorycombo.Text;
                 imgOBJECT a = new imgOBJECT(parametr.fn.Text, parametr.fileName.Text, parametr.fileURL.Text, category, tags);
 
-                string tagi = "";
-                foreach (string tag in tags)
-                {
-                    tagi += tag + "; ";
-                }
-
-
                 allPic.Add(a);
-                selectedPic.Add(a);
-                list.Items.Add(a.name + ": " + tagi);
+                addToListBox(a);
             }
         }
+
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             list.Items.Clear();
@@ -71,35 +44,11 @@ namespace course_work
             ComboBoxItem comboBox = (ComboBoxItem)kategoria.SelectedItem;
             string category = comboBox.Content.ToString();
 
-            if (category == "All")
+            foreach (imgOBJECT a in allPic)
             {
-                foreach (imgOBJECT a in allPic)
+                if (category == "All" || a.category == category)
                 {
-                    string tagi = "";
-                    foreach (string tag in a.tags)
-                    {
-                        tagi += tag + "; ";
-                    }
-
-                    list.Items.Add(a.name + ": " + tagi);
-                    selectedPic.Add(a);
-                }
-            }
-            else
-            {
-                foreach (imgOBJECT a in allPic)
-                {
-                    if (a.category == category)
-                    {
-                        string tagi = "";
-                        foreach (string tag in a.tags)
-                        {
-                            tagi += tag + "; ";
-                        }
-
-                        list.Items.Add(a.name + ": " + tagi);
-                        selectedPic.Add(a);
-                    }
+                    addToListBox(a);
                 }
             }
         }
@@ -136,31 +85,17 @@ namespace course_work
 
             foreach (imgOBJECT el in allPic)
             {
-                string tagi = "";
-                foreach (string tag in el.tags)
+                if (el.name.Contains(name))
                 {
-                    tagi += tag + "; ";
+                    addToListBox(el);
                 }
-
-                string name1 = el.name;
-                if (name1.Contains(name) == true)
-                {
-                    list.Items.Add(name1 + ": " + tagi);
-                    selectedPic.Add(el);
-                }
-
 
                 foreach (string tag in el.tags)
                 {
-                    string name2 = tag;
-                    string name3;
-                    if (name2.Contains(name) == true)
+                    if (tag.Contains(name))
                     {
-                        name3 = el.name;
-                        list.Items.Add(name3 + ": " + tagi);
-                        selectedPic.Add(el);
+                        addToListBox(el);
                     }
-
                 }
             }
         }
@@ -185,26 +120,19 @@ namespace course_work
             list.Items.Clear();
             allPic = j.LoadFile();
 
-
-            foreach (imgOBJECT a in allPic)
-            {
-                selectedPic.Add(a);
-                string tagi = "";
-
-                List<string> tagis = a.tags;
-                if (tagis != null)
-                {
-                    foreach (string tag in tagis)
-                    {
-                        tagi += tag + "; ";
-                    }
-
-                }
-
-                list.Items.Add(a.name + ": " + tagi);
-               
-            }
+            foreach (imgOBJECT a in allPic) addToListBox(a);
         }
 
+        private void addToListBox(imgOBJECT obj)
+        {
+            string tagi = JoinTags(obj.tags);
+            list.Items.Add($"{obj.name}: {tagi}");
+            selectedPic.Add(obj);
+        }
+
+        private string JoinTags(List<string> tags)
+        {
+            return string.Join("; ", tags);
+        }
     }
 }
